@@ -1,5 +1,6 @@
 module System.Himpy.Recipes where
 import System.Himpy.Recipes.Network
+import System.Himpy.Recipes.Hp
 import System.Himpy.Recipes.Storage
 import System.Himpy.Recipes.WinServices
 import System.Himpy.Recipes.Iostat
@@ -11,6 +12,7 @@ instance RecipeMod HimpyRecipe where
   recipe mod chan logchan ival host index =
     case mod of
          NetworkRecipe       -> net_rcp chan logchan ival host index
+         HpRecipe            -> hp_rcp chan logchan ival host index
          StorageRecipe       -> storage_rcp chan logchan host
          (WinSrvRecipe srvs) -> srv_rcp srvs chan logchan host
          LoadRecipe          -> load_rcp chan logchan host

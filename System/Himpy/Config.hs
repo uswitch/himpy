@@ -14,6 +14,7 @@ import qualified Data.ByteString.Lazy as BL
 get_rcp :: (String,[String]) -> HimpyRecipe
 get_rcp ("storage",_) = StorageRecipe
 get_rcp ("network", _) = NetworkRecipe
+get_rcp ("hp", _) = HpRecipe
 get_rcp ("load", _) = LoadRecipe
 get_rcp ("iostat", _) = IostatRecipe
 get_rcp ("juniper", _) = JuniperRecipe
