@@ -1,0 +1,13 @@
+/var/log/himpy.log {
+  daily
+  missingok
+  rotate 7
+  compress
+  delaycompress
+  notifempty
+  create 0640 himpy himpy
+  sharedscripts
+  postrotate
+    restart himpy
+  endscript
+}

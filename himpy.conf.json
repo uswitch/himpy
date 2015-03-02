@@ -1,7 +1,7 @@
 {
     "ttl": "125.00",
     "interval": "60",
-    "logfile": "/tmp/himpy.log",
+    "logfile": "/var/log/himpy.log",
     "host": "127.0.0.1",
     "port": "5555",
     "hosts": [
