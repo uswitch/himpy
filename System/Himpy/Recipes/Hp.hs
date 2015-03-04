@@ -27,6 +27,11 @@ hp_rcp chan logchan ival (Host host comm _) index = do
   in_errors <- snmp_walk_num host comm ifInErrors
   out_errors <- snmp_walk_num host comm ifOutErrors
 
+  ip_addresses <- snmp_walk_oid_ip host comm ipNetToMediaNetAddress
+  mac_addresses <- snmp_walk_oid_str host comm ipNetToMediaPhysAddress
+
+  mac_addresses <- snmp_walk_oid_str host comm dot1dTpFdbPort
+  mac_address_ports <- snmp_walk_oid_int host comm dot1dBasePortIfIndex
 
   conn <- snmp_walk_num host comm ifConnectorPresent
   adminstatus <- snmp_walk_num host comm ifAdminStatus

@@ -42,3 +42,7 @@ zfsPoolDescr = [1,3,6,1,4,1,25359,1,1,1] :: RawOID
 zfsPoolHealth = [1,3,6,1,4,1,25359,1,1,4] :: RawOID
 ioStatDisks = [1,3,6,1,4,1,25359,4,1,1] :: RawOID
 ioStatErrors = [1,3,6,1,4,1,25359,4,1,2] :: RawOID
+dot1dTpFdbPort = [1, 3, 6, 1, 2, 1, 17, 4, 3, 1, 1] :: RawOID
+dot1dBasePortIfIndex = [1, 3, 6, 1, 2, 1, 17, 4, 3, 1, 2] :: RawOID
+ipNetToMediaNetAddress = [1, 3, 6, 1, 2, 1, 4, 22, 1, 3] :: RawOID
+ipNetToMediaPhysAddress = [1, 3, 6, 1, 2, 1, 4, 22, 1, 2] :: RawOID

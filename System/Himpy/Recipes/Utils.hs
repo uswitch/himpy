@@ -34,6 +34,9 @@ snmp_num (Snmp.Unsigned32 v) = fromIntegral v :: Double
 snmp_num (Snmp.Unsigned64 v) = fromIntegral v :: Double
 snmp_num (Snmp.Gauge32 v) = fromIntegral v :: Double
 
+snmp_int :: Snmp.ASNValue -> Integer
+snmp_int (Snmp.Integer32 v) = fromIntegral v :: Integer
+
 snmp_nums :: Either String [Snmp.SnmpResult] -> [Double]
 snmp_nums (Right results) =
   [snmp_num value | (Snmp.SnmpResult oid value) <- results]
@@ -60,6 +63,40 @@ snmp_walk_num :: String -> String -> Snmp.RawOID -> IO ([Double])
 snmp_walk_num host comm oid = do
   v <- Snmp.snmpWalk Snmp.snmp_version_2c (B.pack host) (B.pack comm) oid
   return (snmp_nums v)
+
+snmp_walk_oid_str :: String -> String -> Snmp.RawOID -> IO([(Snmp.RawOID, String)])
+snmp_walk_oid_str host comm oid = do
+  v <- Snmp.snmpWalk Snmp.snmp_version_2c (B.pack host) (B.pack comm) oid
+  case v of
+    Left error -> return []
+    Right results -> return (snmp_oid_strs results)
+
+snmp_oid_strs :: [Snmp.SnmpResult] -> [(Snmp.RawOID, String)]
+snmp_oid_strs results = [(oid, snmp_str value) | (Snmp.SnmpResult oid value) <- results]
+
+snmp_walk_oid_int :: String -> String -> Snmp.RawOID -> IO([(Snmp.RawOID, Integer)])
+snmp_walk_oid_int host comm oid = do
+  v <- Snmp.snmpWalk Snmp.snmp_version_2c (B.pack host) (B.pack comm) oid
+  case v of
+    Left error -> return []
+    Right results -> return (snmp_oid_ints results)
+
+snmp_oid_ints :: [Snmp.SnmpResult] -> [(Snmp.RawOID, Integer)]
+snmp_oid_ints results = [(oid , snmp_int value) | (Snmp.SnmpResult oid value) <- results]
+
+snmp_walk_oid_ip :: String -> String -> Snmp.RawOID -> IO([(Snmp.RawOID, String)])
+snmp_walk_oid_ip host comm oid = do
+  v <- Snmp.snmpWalk Snmp.snmp_version_2c (B.pack host) (B.pack comm) oid
+  case v of
+    Left error -> return []
+    Right results -> return (snmp_ips results)
+
+snmp_ip :: Snmp.ASNValue -> String
+snmp_ip (Snmp.IpAddress v _) = filter non_nul $ B.unpack v
+snmp_ip v = "unknown: " ++ (Snmp.showASNValue v)
+
+snmp_ips :: [Snmp.SnmpResult] -> [(Snmp.RawOID, String)]
+snmp_ips results = [(oid , snmp_ip value) | (Snmp.SnmpResult oid value) <- results]
 
 snmp_walk_last_str :: String -> String -> Snmp.RawOID -> IO ([String])
 snmp_walk_last_str host comm oid = do
